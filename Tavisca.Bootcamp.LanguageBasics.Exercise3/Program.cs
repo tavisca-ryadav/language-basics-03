@@ -40,8 +40,113 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
-            // Add your code here.
+            int len = protein.Length,len1=dietPlans.Length;
+            int[] ans = new int[len1];
+            int[] cal = new int[len];
+
+            for(int i=0;i<len;i++){
+                cal[i]= (protein[i]*5 + carbs[i]*5 + fat[i]*9);
+                //Console.Write(cal[i]+" , ");
+            }
+            //Console.Write("\n");
+
+            for(int i=0;i<len1;i++){
+                int slen = dietPlans[i].Length;
+                int[] visit  = new int[len];
+
+                for(int j=0;j<len;j++){
+                visit[j]=1;
+                }
+
+                for(int j=0;j<slen;j++){
+
+                    if(dietPlans[i][j]=='p'){
+                        minCheck(protein,visit);
+                    }
+                    if(dietPlans[i][j]=='P'){
+                        maxCheck(protein,visit);
+                    }
+                    if(dietPlans[i][j]=='c'){
+                        minCheck(carbs,visit);
+                    }
+                    if(dietPlans[i][j]=='C'){
+                        maxCheck(carbs,visit);
+                    }
+                    if(dietPlans[i][j]=='f'){
+                        minCheck(fat,visit);
+                    }
+                    if(dietPlans[i][j]=='F'){
+                        maxCheck(fat,visit);
+                    }
+                    if(dietPlans[i][j]=='t'){
+                        minCheck(cal,visit);
+                    }
+                    if(dietPlans[i][j]=='T'){
+                        maxCheck(cal,visit);
+                    }
+
+                    /*for(int k=0;k<len;k++){
+                        Console.Write(visit[k]+" , ");
+                }
+                Console.Write("\n");*/
+                    
+                    //Console.Write(check(visit)+"\n");
+
+                    ans[i]=check(visit);
+
+                }
+
+            }
+            
+            
+
+            for(int i=0;i<ans.Length;i++){
+                Console.Write(ans[i]+" , ");
+            }
+
+            return ans;
             throw new NotImplementedException();
         }
+
+        public static void minCheck(int[] nut,int[] visit){
+            int min=2000,len=nut.Length;
+            for(int k=0;k<len;k++){
+                if(nut[k]<min && visit[k]==1){
+                    min = nut[k];
+                }
+            }
+
+            for(int k=0;k<len;k++){
+                if(nut[k]==min)
+                    visit[k]=1;
+                else
+                    visit[k]=0;
+            }
+        }
+
+        public static void maxCheck(int[] nut,int[] visit){
+            int max=0,len=nut.Length;
+            for(int k=0;k<len;k++){
+                if(nut[k]>max && visit[k]==1){
+                    max = nut[k];
+                }
+            }
+
+            for(int k=0;k<len;k++){
+                if(nut[k]==max)
+                    visit[k]=1;
+                else
+                    visit[k]=0;
+            }
+        }
+
+        public static int check(int[] visit){
+            for(int i=0;i<visit.Length;i++){
+                if(visit[i]==1)
+                    return i;
+            }
+            return 0;;
+        }       
+
     }
 }
