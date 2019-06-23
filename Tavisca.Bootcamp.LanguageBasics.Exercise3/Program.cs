@@ -105,7 +105,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             }
 
             return ans;
-            throw new NotImplementedException();
+            
         }
 
         public static void minCheck(int[] nut,int[] visit){
