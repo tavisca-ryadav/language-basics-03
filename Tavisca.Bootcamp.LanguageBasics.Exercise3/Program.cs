@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 {
@@ -40,108 +41,105 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
-            int len = protein.Length,len1=dietPlans.Length;
-            int[] ans = new int[len1];
-            int[] cal = new int[len];
+            var length1 = protein.Length;
+            var length2 = dietPlans.Length;
 
-            for(int i=0;i<len;i++){
-                cal[i]= (protein[i]*5 + carbs[i]*5 + fat[i]*9);
-                //Console.Write(cal[i]+" , ");
+            int[] array = new int[length2];
+            int[] calorie = new int[length1];
+
+            // Calculate calorie for each element
+            for(var i=0;i<length1;i++){
+                calorie[i]= (protein[i]*5 + carbs[i]*5 + fat[i]*9);
             }
-            //Console.Write("\n");
+         
 
-            for(int i=0;i<len1;i++){
-                int slen = dietPlans[i].Length;
-                int[] visit  = new int[len];
+            for(var i=0;i<length2;i++){
+                var stringLen = dietPlans[i].Length;
 
-                for(int j=0;j<len;j++){
-                visit[j]=1;
-                }
+                //Use a visit array which will keep track of duplicate element values
+                int[] visit  = new int[length1];
 
-                for(int j=0;j<slen;j++){
+                for(int j=0;j<length1;j++)
+                    visit[j]=1;
+
+                for(int j=0;j<stringLen;j++){
+                    
+                    //Update visit array according to duplicacy in nutrients
 
                     if(dietPlans[i][j]=='p'){
-                        minCheck(protein,visit);
+                        MinCheck(protein,visit);
                     }
                     if(dietPlans[i][j]=='P'){
-                        maxCheck(protein,visit);
+                        MaxCheck(protein,visit);
                     }
                     if(dietPlans[i][j]=='c'){
-                        minCheck(carbs,visit);
+                        MinCheck(carbs,visit);
                     }
                     if(dietPlans[i][j]=='C'){
-                        maxCheck(carbs,visit);
+                        MaxCheck(carbs,visit);
                     }
                     if(dietPlans[i][j]=='f'){
-                        minCheck(fat,visit);
+                        MinCheck(fat,visit);
                     }
                     if(dietPlans[i][j]=='F'){
-                        maxCheck(fat,visit);
+                        MaxCheck(fat,visit);
                     }
                     if(dietPlans[i][j]=='t'){
-                        minCheck(cal,visit);
+                        MinCheck(calorie,visit);
                     }
                     if(dietPlans[i][j]=='T'){
-                        maxCheck(cal,visit);
+                        MaxCheck(calorie,visit);
                     }
 
-                    /*for(int k=0;k<len;k++){
-                        Console.Write(visit[k]+" , ");
-                }
-                Console.Write("\n");*/
-                    
-                    //Console.Write(check(visit)+"\n");
-
-                    ans[i]=check(visit);
+                    //Store index in array 
+                    array[i] =Check(visit);
 
                 }
 
             }
             
-            
-
-            for(int i=0;i<ans.Length;i++){
-                Console.Write(ans[i]+" , ");
-            }
-
-            return ans;
-            
+            return array;
         }
 
-        public static void minCheck(int[] nut,int[] visit){
-            int min=2000,len=nut.Length;
-            for(int k=0;k<len;k++){
-                if(nut[k]<min && visit[k]==1){
-                    min = nut[k];
+        public static void MinCheck(int[] nutrient,int[] visit){
+            var min = 2000;
+            var length = nutrient.Length;
+            //First find the minmum element in nutrient
+            for(var k=0;k<length;k++){
+                if(nutrient[k]<min && visit[k]==1){
+                    min = nutrient[k];
                 }
             }
-
-            for(int k=0;k<len;k++){
-                if(nut[k]==min)
+            //Now check the duplicates on nutrient and update visit array
+            for(var k=0;k<length;k++){
+                if(nutrient[k]==min)
                     visit[k]=1;
                 else
                     visit[k]=0;
             }
         }
 
-        public static void maxCheck(int[] nut,int[] visit){
-            int max=0,len=nut.Length;
-            for(int k=0;k<len;k++){
-                if(nut[k]>max && visit[k]==1){
-                    max = nut[k];
+        public static void MaxCheck(int[] nutrient,int[] visit){
+            var max=0;
+            var length=nutrient.Length;
+            //First find the maximum element in nutrient
+            for(var k=0;k<length;k++){
+                if(nutrient[k]>max && visit[k]==1){
+                    max = nutrient[k];
                 }
             }
-
-            for(int k=0;k<len;k++){
-                if(nut[k]==max)
+             //Now check the duplicates on nutrient and update visit array
+            for(var k=0;k<length;k++){
+                if(nutrient[k]==max)
                     visit[k]=1;
                 else
                     visit[k]=0;
             }
         }
 
-        public static int check(int[] visit){
-            for(int i=0;i<visit.Length;i++){
+        public static int Check(int[] visit){
+            //Find for the first 1 in array visit and return the index else 0
+            for(var i=0;i<visit.Length;i++){
                 if(visit[i]==1)
                     return i;
             }
