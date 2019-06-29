@@ -73,10 +73,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             }
 
             return CheckVisits(trackVisits);
-           
-            
-
-		}
+	}
 
         private static void MinimumCheck(int[] nutrient,int[] trackVisits){
             var minimumNutrientValue = 2000;
