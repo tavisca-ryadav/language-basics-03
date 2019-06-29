@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -51,7 +51,6 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                     result[personId] = nutritionInformation.GetSuitableDietIndexForPerson(personDiet);
             }
             return result;
-        } 
-
+        }
     }
 }
