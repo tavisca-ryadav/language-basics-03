@@ -38,7 +38,8 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 		
 		public int GetSuitableDietIndexForPerson(string diet)
         {
-
+            if(string.IsNullOrEmpty(diet))
+                return 0;
             var trackVisits  = new int[Protein.Length];
             trackVisits = Enumerable.Repeat(1,Protein.Length).ToArray();
 
